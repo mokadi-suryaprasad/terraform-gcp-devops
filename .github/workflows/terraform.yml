@@ -42,8 +42,8 @@ jobs:
       - name: Terraform Plan (feature/*)
         if: startsWith(github.ref_name, 'feature/')
         run: |
-          cd environments/dev   # preview changes in dev
-          terraform init        # backend configured in backend.tf
+          cd environments/dev
+          terraform init          # backend configured in backend.tf
           terraform plan \
             -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
             -var="gcp_region1=us-central1"
