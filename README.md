@@ -1,6 +1,7 @@
 # Terraform GCP DevOps Project
 
 - **Purpose**: Provision GCP infrastructure for Dev and Prod using Terraform.
+
 - **Branching Strategy**:
   - `feature/*` → dev preview (validate & plan)
   - `main` → central trunk
@@ -38,3 +39,32 @@
   1. Create feature branch → push changes → PR to main
   2. Merge main → dev → plan & apply
   3. Merge dev → prod → plan & apply
+
+---
+
+## Feature Branch Workflow (Trunk-Based + Environment Branches)
+
+    ┌─────────────┐
+    │ feature/*   │
+    │ (dev preview│
+    │ validate &  │
+    │ plan)       │
+    └─────┬───────┘
+          │
+          ▼
+    ┌─────────────┐
+    │    main     │
+    │ central trunk│
+    └─────┬───────┘
+          │
+          ▼
+    ┌─────────────┐
+    │    dev      │
+    │ plan & apply│
+    └─────┬───────┘
+          │
+          ▼
+    ┌─────────────┐
+    │    prod     │
+    │ plan & apply│
+    └─────────────┘
