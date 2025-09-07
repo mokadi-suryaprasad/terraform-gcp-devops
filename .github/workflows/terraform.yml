@@ -19,13 +19,16 @@ jobs:
       GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/gcp-key.json
 
     steps:
+      # ---------------- Checkout Repository ----------------
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # ---------------- Set up GCP Credentials ----------------
       - name: Set up GCP credentials
         run: |
           echo '${{ secrets.GCP_SA_KEY }}' > $GOOGLE_APPLICATION_CREDENTIALS
 
+      # ---------------- Install Terraform ----------------
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -39,10 +42,11 @@ jobs:
       - name: Terraform Plan (feature/*)
         if: startsWith(github.ref_name, 'feature/')
         run: |
-          cd environments/dev   # using dev env for preview
-          terraform init -backend-config="project=${{ secrets.GCP_PROJECT_ID }}"
+          cd environments/dev   # preview changes in dev
+          terraform init        # backend configured in backend.tf
           terraform plan \
-            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_region1=us-central1" \
             -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
 
       # ---------------- DEV ENV ----------------
@@ -50,14 +54,15 @@ jobs:
         if: github.ref_name == 'dev'
         run: |
           cd environments/dev
-          terraform init -backend-config="project=${{ secrets.GCP_PROJECT_ID }}"
+          terraform init
 
       - name: Terraform Plan (dev)
         if: github.ref_name == 'dev'
         run: |
           cd environments/dev
           terraform plan \
-            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_region1=us-central1" \
             -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
 
       - name: Terraform Apply (dev)
@@ -65,7 +70,8 @@ jobs:
         run: |
           cd environments/dev
           terraform apply -auto-approve \
-            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_region1=us-central1" \
             -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
 
       # ---------------- PROD ENV ----------------
@@ -73,14 +79,15 @@ jobs:
         if: github.ref_name == 'prod'
         run: |
           cd environments/prod
-          terraform init -backend-config="project=${{ secrets.GCP_PROJECT_ID }}"
+          terraform init
 
       - name: Terraform Plan (prod)
         if: github.ref_name == 'prod'
         run: |
           cd environments/prod
           terraform plan \
-            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_region1=us-central1" \
             -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
 
       - name: Terraform Apply (prod)
@@ -88,5 +95,6 @@ jobs:
         run: |
           cd environments/prod
           terraform apply -auto-approve \
-            -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
+            -var="gcp_region1=us-central1" \
             -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
