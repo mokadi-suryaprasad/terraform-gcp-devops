@@ -33,6 +33,7 @@
   - Compute Admin
   - Service Account User
   - Project Viewer
+  - Storage Admin → read/write to GCS bucket for Terraform state
   - Must belong to the same project as `GCP_PROJECT_ID`
 
 - **Workflow**:
