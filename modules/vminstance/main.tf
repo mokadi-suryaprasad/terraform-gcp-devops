@@ -8,7 +8,7 @@ resource "google_compute_instance" "myapp1" {
     initialize_params {
       image = "debian-cloud/debian-12"
       size = 10
-      #size = 20
+      size = 20
     }
   }
   # Install Webserver
