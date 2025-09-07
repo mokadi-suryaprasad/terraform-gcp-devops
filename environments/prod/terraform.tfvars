@@ -1,4 +1,4 @@
-gcp_project   = "gcplearn9"
+gcp_project   = "gcp-zero-to-hero-467513"
 gcp_region1   = "us-central1"
 machine_type  = "e2-micro"
 environment     = "prod"
