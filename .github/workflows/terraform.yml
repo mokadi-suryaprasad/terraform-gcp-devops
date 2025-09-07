@@ -46,8 +46,7 @@ jobs:
           terraform init        # backend configured in backend.tf
           terraform plan \
             -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="gcp_region1=us-central1" \
-            -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
+            -var="gcp_region1=us-central1"
 
       # ---------------- DEV ENV ----------------
       - name: Terraform Init (dev)
@@ -62,8 +61,7 @@ jobs:
           cd environments/dev
           terraform plan \
             -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="gcp_region1=us-central1" \
-            -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
+            -var="gcp_region1=us-central1"
 
       - name: Terraform Apply (dev)
         if: github.ref_name == 'dev'
@@ -71,8 +69,7 @@ jobs:
           cd environments/dev
           terraform apply -auto-approve \
             -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="gcp_region1=us-central1" \
-            -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
+            -var="gcp_region1=us-central1"
 
       # ---------------- PROD ENV ----------------
       - name: Terraform Init (prod)
@@ -87,8 +84,7 @@ jobs:
           cd environments/prod
           terraform plan \
             -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="gcp_region1=us-central1" \
-            -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
+            -var="gcp_region1=us-central1"
 
       - name: Terraform Apply (prod)
         if: github.ref_name == 'prod'
@@ -96,5 +92,4 @@ jobs:
           cd environments/prod
           terraform apply -auto-approve \
             -var="gcp_project=${{ secrets.GCP_PROJECT_ID }}" \
-            -var="gcp_region1=us-central1" \
-            -var="credentials_file=$GOOGLE_APPLICATION_CREDENTIALS"
+            -var="gcp_region1=us-central1"
