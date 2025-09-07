@@ -3,14 +3,14 @@
 variable "gcp_project" {
   description = "Project in which GCP Resources to be created"
   type = string
-  default = "kdaida123"
+  default = "gcp-zero-to-hero-467513 "
 }
 
 # GCP Region
 variable "gcp_region1" {
   description = "Region in which GCP Resources to be created"
   type = string
-  default = "us-east1"
+  default = "us-central1"
 }
 
 # GCP Compute Engine Machine Type
